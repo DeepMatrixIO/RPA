@@ -20,6 +20,7 @@ interface IReactPictureAnnotationProps {
   marginWithInput: number;
   onChange: (annotationData: IAnnotation[]) => void;
   onSelect: (id: string | null) => void;
+  mouseMove: (event: any) => any;
   width: number;
   height: number;
   image: string;
@@ -51,6 +52,7 @@ export default class ReactPictureAnnotation extends React.Component<
     marginWithInput: 10,
     scrollSpeed: 0.0005,
     annotationStyle: defaultShapeStyle,
+
     inputElement: (
       value: string,
       onChange: (value: string) => void,
@@ -161,8 +163,11 @@ export default class ReactPictureAnnotation extends React.Component<
   };
 
   public render() {
-    const { width, height, inputElement } = this.props;
+    const { width, height, inputElement, mouseMove } = this.props;
     const { showInput, inputPosition, inputComment } = this.state;
+    const manageMove = (e: any) => {
+      mouseMove(e);
+    };
     return (
       <div className="rp-stage">
         <canvas
@@ -171,6 +176,7 @@ export default class ReactPictureAnnotation extends React.Component<
           ref={this.imageCanvasRef}
           width={width * 2}
           height={height * 2}
+          onMouseMove={manageMove}
         />
         <canvas
           className="rp-shapes"
